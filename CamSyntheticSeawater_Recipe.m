@@ -57,9 +57,7 @@ K = (m_K)*(Density)*L;
 Na2SO4_mw = 142.04;
 KCl_mw = 74.55;
 NaCl_mw = 58.44;
-MgCl2_6H2O_mw = 203.3;
 MgCl2_mw = 95.20832;
-CaCl2_2H2O_mw = 147.01;
 CaCl2_mw = 110.98;
 
 
@@ -74,14 +72,16 @@ KCl = K * KCl_mw;
      % moles of Cl- coming from KCl
        chlo_k = K;       
     
-% MgCl2.6H2O to be added (g)
-MgCl2_6H2O = Mg  * MgCl2_6H2O_mw;
-    % moles of Cl- coming from MgCl2.6H2O
+% MgCl2.6H2O to be added (g). Assuming hydrated salts dissociate into
+% constituent ions completely. Just use mw of unhydrated salt.
+MgCl2 = Mg * MgCl2_mw;
+    % moles of Cl- coming from MgCl2
       chlo_mg = (Mg)*2;  
 
-% CaCl2.2H2O to be added (g)
-CaCl2_2H2O = Ca * CaCl2_2H2O_mw; 
-    % moles of Cl- coming from CaCl2.2H2O
+% CaCl2.2H2O to be added (g). Assuming hydrated salts dissociate into
+% constituent ions completely. Just use mw of unhydrated salt.
+CaCl2 = Ca * CaCl2_mw;
+    % moles of Cl- coming from CaCl2
       chlo_ca = (Ca)*2;   
     
 % Na+ to be added from NaCl
@@ -94,7 +94,7 @@ Cl_rest = Cl - (chlo_k) - (chlo_mg) - (chlo_ca);
 NaCl = Na_rest * NaCl_mw;
     
 % Total salt content    
-Totsalts = NaCl+Na2SO4+KCl+MgCl2_6H2O+CaCl2_2H2O;
+Totsalts = NaCl+Na2SO4+KCl+MgCl2+CaCl2;
 
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');   
 fprintf('Total Volume to be prepared (L) = %f\n', L); 
@@ -102,8 +102,8 @@ disp('                                                        ');
 fprintf('Na2SO4 to be added (g) = %f\n', Na2SO4); 
 fprintf('KCl to be added (g) = %f\n', KCl); 
 fprintf('NaCl to be added (g) = %f\n', NaCl); 
-fprintf('MgCl2_6H2O to be added (g) = %f\n', MgCl2_6H2O); 
-fprintf('CaCl2_2H2O to be added (g) = %f\n', CaCl2_2H2O); 
+fprintf('MgCl2 to be added (g) = %f\n', MgCl2); 
+fprintf('CaCl2 to be added (g) = %f\n', CaCl2); 
 fprintf('Sum of salts (g) = %f\n', Totsalts);
 fprintf('Na_rest - Cl_rest (g) = %f\n', Na_rest - Cl_rest);
 disp('                                                        ');
