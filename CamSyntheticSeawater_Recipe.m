@@ -75,14 +75,12 @@ KCl = K * KCl_mw;
        chlo_k = K;       
     
 % MgCl2.6H2O to be added (g)
-% MgCl2_6H2O = Mg  * MgCl2_6H2O_mw;
-MgCl2 = Mg * MgCl2_mw;
+MgCl2_6H2O = Mg  * MgCl2_6H2O_mw;
     % moles of Cl- coming from MgCl2.6H2O
       chlo_mg = (Mg)*2;  
 
 % CaCl2.2H2O to be added (g)
-%CaCl2_2H2O = Ca * CaCl2_2H2O_mw; 
-CaCl2 = Ca * CaCl2_mw;
+CaCl2_2H2O = Ca * CaCl2_2H2O_mw; 
     % moles of Cl- coming from CaCl2.2H2O
       chlo_ca = (Ca)*2;   
     
@@ -96,7 +94,7 @@ Cl_rest = Cl - (chlo_k) - (chlo_mg) - (chlo_ca);
 NaCl = Na_rest * NaCl_mw;
     
 % Total salt content    
-%Totsalts = NaCl+Na2SO4+KCl+MgCl2_6H2O+CaCl2_2H2O;
+Totsalts = NaCl+Na2SO4+KCl+MgCl2_6H2O+CaCl2_2H2O;
 
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');   
 fprintf('Total Volume to be prepared (L) = %f\n', L); 
