@@ -17,6 +17,22 @@ m_Ca = (0.01036);
 m_K = (0.01021);
 
 
+% complex sw 
+% m_Cl = (0.54586);
+% m_SO4 = (0.02824);
+% m_Na = (0.46906);
+% m_Mg = (0.05282);
+% m_Ca = (0.01028);
+% m_K = (0.01021);
+m_CO3 = (0.00026);
+m_HCO3 = (0.00177);
+
+
+% anions = Cl_rest + m_HCO3 + 2*(m_CO3) + 2*(m_SO4);
+% cations = Na_rest + m_K + 2*(m_Ca) + 2*(m_Mg);
+% 
+% 
+% cations - anions
 %==========================================================================
 
 
@@ -52,6 +68,8 @@ Na = (m_Na)*(Density)*L;
 Mg = (m_Mg)*(Density)*L;
 Ca = (m_Ca)*(Density)*L;
 K = (m_K)*(Density)*L;
+CO3 = (m_CO3)*(Density)*L;
+HCO3 = (m_HCO3)*(Density)*L;
 
 % Molecular mass of salts
 Na2SO4_mw = 142.04;
@@ -60,11 +78,25 @@ NaCl_mw = 58.44;
 MgCl2_6H2O_mw = 203.3;
 CaCl2_2H2O_mw = 147.01;
 
+NaHCO3_mw = 84.00;
+Na2CO3_mw = 106.00;
+
+
 
 % Na2SO4 to be added (g)
 Na2SO4 = SO4 * Na2SO4_mw;
     % moles of Na+ coming from Na2SO4
       sod_so4 = (SO4)*2; 
+
+% Na2CO3 to be added (g)
+Na2CO3 = CO3 * Na2CO3_mw;
+    % moles of Na+ coming from Na2CO3
+      sod_CO32 = (CO3)*2; 
+
+% NaHCO3 to be added (g)
+NaHCO3 = HCO3 * NaHCO3_mw;
+    % moles of Na+ coming from NaHCO3
+      sod_HCO3 = (HCO3);       
     
 % KCl to be added (g)
 KCl = K * KCl_mw;
@@ -82,7 +114,8 @@ CaCl2_2H2O = Ca * CaCl2_2H2O_mw;
       chlo_ca = (Ca)*2;   
     
 % Na+ to be added from NaCl
-Na_rest = Na - (sod_so4);
+Na_rest = Na - (sod_so4) - (sod_HCO3) - (sod_CO32);
+
 
 % Cl- to be added from NaCl
 Cl_rest = Cl - (chlo_k) - (chlo_mg) - (chlo_ca);
@@ -92,18 +125,22 @@ NaCl = Na_rest * NaCl_mw;
     
 
 % Total H2O content
-% incorporates mole fraction of water in hydrated salts 
-H2O = (MgCl2_6H2O*0.53)+(CaCl2_2H2O*0.25)
+% incorporates mole fraction of water in hydrated salts [];'
+
+H2O = (MgCl2_6H2O*0.53)+(CaCl2_2H2O*0.25);
 
 % Total salt content    
-Totsalts = (NaCl+Na2SO4+KCl+MgCl2_6H2O+CaCl2_2H2O)-(H2O);
+Totsalts = (NaCl+Na2CO3+NaHCO3+Na2SO4+KCl+MgCl2_6H2O+CaCl2_2H2O)-(H2O);
+
 
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');   
 fprintf('Total Volume to be prepared (L) = %f\n', L); 
 disp('                                                        ');
 fprintf('Na2SO4 to be added (g) = %f\n', Na2SO4); 
 fprintf('KCl to be added (g) = %f\n', KCl); 
-fprintf('NaCl to be added (g) = %f\n', NaCl); 
+fprintf('NaCl to be added (g) = %f\n', NaCl);
+fprintf('Na2CO3 to be added (g) = %f\n', Na2CO3); 
+fprintf('NaHCO3 to be added (g) = %f\n', NaHCO3); 
 fprintf('MgCl2_6H2O to be added (g) = %f\n', MgCl2_6H2O); 
 fprintf('CaCl2_2H2O to be added (g) = %f\n', CaCl2_2H2O); 
 disp('                                                        ');
