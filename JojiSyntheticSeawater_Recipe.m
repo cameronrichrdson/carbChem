@@ -2,7 +2,7 @@ clear all; close all;
 
 % Input 
 %==========================================================================
-T = 23;      % Temp in Celsius (Lab ~21C most of the time)
+T = 21;      % Temp in Celsius (Lab ~21C most of the time)
 S = 35;      % Salinity
 L = 1;       % Liters of synthetic seawater to be prepared
 
@@ -16,14 +16,16 @@ m_Mg = (0.05283);
 m_Ca = (0.01036);
 m_K = (0.01021);
 
+m_B = (0.00042); %assuming all boron from one source
+% m_HCO3 = (0.00177+0.00026); %assuming all alk from HCO3
+m_CO32 = 0.0011 
+
 % Concentration of MgCl2 & CaCl2 solutions (mol/L) to be used
 % (arbitarily set to 1 mol/L for now, to simplify calculation)
-MgCl2_conc = 0.971;
-CaCl2_conc = 1.05; 
+MgCl2_conc = 0.92;
+CaCl2_conc = 0.984; 
 
 %==========================================================================
-
-
 
 
 
@@ -57,12 +59,39 @@ Mg = (m_Mg)*(Density)*L;
 Ca = (m_Ca)*(Density)*L;
 K = (m_K)*(Density)*L;
 
+B = (m_B)*(Density)*L;
+%HCO3 = (m_HCO3)*(Density)*L;
+CO32 = (m_CO32)*(Density)*L;
+
+
 % Molecular mass of salts
 Na2SO4_mw = 142.04;
 KCl_mw = 74.55;
 NaCl_mw = 58.44;
 
+%alk 
+BH3O3_mw = 61.83;
+%NaHCO3_mw = 84.01;
+Na2CO3_mw = 105.99;
 
+
+
+
+% BH3O3 to be added (g)
+BH3O3 = B * BH3O3_mw;
+    % moles of B coming from BH3O3
+    b_oh = B * 3
+
+    
+% Na2CO3 to be added (g)
+Na2CO3 = CO32 * Na2CO3_mw;
+    % moles of Na+ coming from Na2CO3
+       sod_co32 = CO32 * 2;
+
+% NaHCO3 to be added (g)
+%NaHCO3 = HCO3 * NaHCO3_mw;
+    % moles of Na+ coming from NaHCO3
+      % sod_hco3 = HCO3;
 
 % Na2SO4 to be added (g)
 Na2SO4 = SO4 * Na2SO4_mw;
@@ -85,31 +114,49 @@ CaCl2 = (Ca / CaCl2_conc)*1000;
       chlo_ca = (Ca)*2;   
     
 
+
 % Na+ to be added from NaCl
-Na_rest = Na - (sod_so4);
+Na_rest = Na - (sod_so4+sod_co32);
 % Cl- to be added from NaCl
 Cl_rest = Cl - (chlo_k) - (chlo_mg) - (chlo_ca);
 %         !!!!!! Check  !!!!!!  
    Na_rest - Cl_rest
        
 % NaCl to be added (g)
-NaCl = Na_rest * NaCl_mw;
+NaCl = Na_rest * NaCl_mw; 
 
 
-Totsalts = NaCl+Na2SO4+KCl;
-    
-    
-    
+%initial alk estimate
+alk =  -10^6*(Na_rest - Cl_rest);    
+
+%initial DIC
+K0 = exp((9345.17 / T) - 60.2409 + ...
+     23.3585 * log10(T / 100) + ...
+     S * (0.023517 - 0.00023656 * T + 0.0047036 * (T / 100)^2));
+
+KH = 10^-1.46
+pCO2 = 420*10^-6
+DIC = 10^6*m_CO32 + (KH*pCO2)
+
+
+
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');   
 fprintf('Total Volume to be prepared (L) = %f\n', L); 
 disp('                                                        ');
 fprintf('Na2SO4 to be added (g) = %f\n', Na2SO4); 
+fprintf('BH3O3 to be added (g) = %f\n', BH3O3); 
+%fprintf('NaHCO3 to be added (g) = %f\n', NaHCO3); 
+fprintf('Na2CO32 to be added (g) = %f\n', Na2CO3);
 fprintf('KCl to be added (g) = %f\n', KCl); 
 fprintf('NaCl to be added (g) = %f\n', NaCl); 
 fprintf('MgCl2 solution to be added (mL) = %f\n', MgCl2); 
 fprintf('CaCl2 solution to be added (mL) = %f\n', CaCl2); 
-fprintf('Sum of salts (g) = %f\n', Totsalts);
+fprintf('Practical alkalinity estimate (uEq) %f\n', alk')
+fprintf('DIC estimate (uM) %f\n', DIC')
+fprintf('Total boron estimate (uM) %f\n', 10^6*B')
+%fprintf('Sum of salts (g) = %f\n', Totsalts);
 disp('                                                        ');
+disp('Prepare dry and wet ingredients separately');
 disp('Add these ingridients & bring the solution to the target volume');
 disp('with DI-H2O in a Volumetric Flask');
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');   
