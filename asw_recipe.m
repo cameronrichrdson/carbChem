@@ -3,7 +3,7 @@ clear all; close all;
 % Input 
 %==========================================================================
 prompt = "Input Temp (C):";
-T = input(prompt);         % Temp in Celsius (Lab ~21C most of the time)
+T = input(prompt);         % Temp in Celsius 
 
 prompt = "Input Salinity (g/kg):";
 S = input(prompt);   
