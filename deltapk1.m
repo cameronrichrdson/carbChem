@@ -1,11 +1,12 @@
-cd('/Users/cameronrichardson/Documents/School/Thesis/Code');
+cd('/Users/cameronrichardson/Documents/School/Thesis/Code/data');
 
 % Read the file using readtable with a comma delimiter
-data = readtable('ID_pK1.txt', 'Delimiter', ',');
+data = readtable('data', 'Delimiter', ',');
 
 % Assuming 'ID' is a column from your 'data' table
 ID = data(:, 1);  % Column containing ID strings
 pK1 = data{:, 2}; % Convert to numeric array (if it's not already)
+pK2 = data{:, 3};
 
 % Convert the ID table column to a cell array for string manipulation
 ID = table2cell(ID); 
@@ -15,24 +16,23 @@ group = cell(size(ID, 1), 1);  % Use size() for arrays
 
 % Grouping based on patterns in ID strings
 for i = 1:size(ID, 1)
-    if contains(ID{i}, 'BP2')
-        group{i} = 'BP2';
-    elseif contains(ID{i}, 'BP3')
-        group{i} = 'BP3';
-    elseif contains(ID{i}, 'BP4')
-        group{i} = 'BP4';
-    elseif contains(ID{i}, 'BP5')
-        group{i} = 'BP5';
-    else
-        group{i} = 'pK1';
-    end
+    if contains(ID{i}, 'C7')
+        group{i} = 'C7';
+    elseif contains(ID{i}, 'C8')
+        group{i} = 'C8';
+    elseif contains(ID{i}, 'C9')
+        group{i} = 'C9';
+    elseif contains(ID{i}, 'C10')
+        group{i} = 'C10';
 end
 
-% delta pK1 loop
-delta = zeros(size(pK1));  % Pre-allocate numeric array for delta values
+c7_delta = 5.8940116015838, 9.05588423628925;
 
-for i = 1:size(pK1, 1)
-    delta(i) = pK1(1) - pK1(i);  % Difference with first element in pK1
+% delta pK1 loop
+delta = zeros(1:5); % Pre-allocate numeric array for delta values
+
+for i = 1:5(pK1);
+    delta(i) = c7_delta(1) - pK1(i);  % Difference with first element in pK1
 end
 
 % Convert group to categorical for easy handling in plots

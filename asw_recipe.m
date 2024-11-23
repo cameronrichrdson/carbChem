@@ -1,4 +1,4 @@
-clear all; close all;
+clear all;
 
 % Input 
 %==========================================================================
@@ -8,7 +8,8 @@ T = input(prompt);         % Temp in Celsius
 prompt = "Input Salinity (g/kg):";
 S = input(prompt);   
       
-L = 1;       % Liters of synthetic seawater to be prepared
+prompt = "Volume to be prepared (L):";
+L = input(prompt);       % Liters of synthetic seawater to be prepared
 
 % Molality (mol/Kg art.SW) of constituent ions in the ASW 
     %  The Molality (mol/kg) value for ions from 
@@ -25,9 +26,8 @@ m_B = (0.00042); %assuming all boron from one source
 m_CO32 = 0.0011; 
 
 % Concentration of MgCl2 & CaCl2 solutions (mol/L) to be used
-% (arbitarily set to 1 mol/L for now, to simplify calculation)
-MgCl2_conc = 0.92;
-CaCl2_conc = 0.984; 
+MgCl2_conc = 1.703211;
+CaCl2_conc = 0.952078; 
 
 %==========================================================================
 
@@ -78,19 +78,16 @@ BH3O3_mw = 61.83;
 %NaHCO3_mw = 84.01;
 Na2CO3_mw = 105.99;
 
-
-
-
 % BH3O3 to be added (g)
 BH3O3 = B * BH3O3_mw;
     % moles of B coming from BH3O3
-    b_oh = B * 3
+    b_oh = B * 3;
 
     
 % Na2CO3 to be added (g)
-Na2CO3 = CO32 * Na2CO3_mw;
-    % moles of Na+ coming from Na2CO3
-       sod_co32 = CO32 * 2;
+% Na2CO3 = CO32 * Na2CO3_mw;
+%     % moles of Na+ coming from Na2CO3
+%        sod_co32 = CO32 * 2;
 
 % NaHCO3 to be added (g)
 %NaHCO3 = HCO3 * NaHCO3_mw;
@@ -120,11 +117,11 @@ CaCl2 = (Ca / CaCl2_conc)*1000;
 
 
 % Na+ to be added from NaCl
-Na_rest = Na - (sod_so4+sod_co32);
+Na_rest = Na - (sod_so4);
 % Cl- to be added from NaCl
 Cl_rest = Cl - (chlo_k) - (chlo_mg) - (chlo_ca);
 %         !!!!!! Check  !!!!!!  
-   Na_rest - Cl_rest
+(Na_rest - Cl_rest);
        
 % NaCl to be added (g)
 NaCl = Na_rest * NaCl_mw; 
@@ -134,13 +131,9 @@ NaCl = Na_rest * NaCl_mw;
 alk =  -10^6*(Na_rest - Cl_rest);    
 
 %initial DIC
-K0 = exp((9345.17 / T) - 60.2409 + ...
-     23.3585 * log10(T / 100) + ...
-     S * (0.023517 - 0.00023656 * T + 0.0047036 * (T / 100)^2));
-
-KH = 10^-1.46
-pCO2 = 420*10^-6
-DIC = 10^6*m_CO32 + (KH*pCO2)
+KH = 10^-1.46;
+pCO2 = 420*10^-6;
+DIC = 10^6*m_CO32 + (KH*pCO2);
 
 
 
@@ -152,7 +145,7 @@ disp('                                                        ');
 fprintf('Na2SO4 to be added (g) = %f\n', Na2SO4); 
 fprintf('BH3O3 to be added (g) = %f\n', BH3O3); 
 %fprintf('NaHCO3 to be added (g) = %f\n', NaHCO3); 
-fprintf('Na2CO32 to be added (g) = %f\n', Na2CO3);
+% fprintf('Na2CO32 to be added (g) = %f\n', Na2CO3);
 fprintf('KCl to be added (g) = %f\n', KCl); 
 fprintf('NaCl to be added (g) = %f\n', NaCl); 
 fprintf('MgCl2 solution to be added (mL) = %f\n', MgCl2); 

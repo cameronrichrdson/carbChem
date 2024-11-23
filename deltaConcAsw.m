@@ -2,7 +2,7 @@
 %==========================================================================
 S = S;     
 T = T;      % Salinity
-L = 1;       % Liters of synthetic seawater to be prepared
+L = L;       % Liters of synthetic seawater to be prepared
 
 % Molality (mol/Kg art.SW) of constituent ions in the ASW 
     %  The Molality (mol/kg) value for ions from 
@@ -14,7 +14,7 @@ m_Mg = (0.05283);
 m_Ca = (0.01036);
 m_K = (0.01021);
 m_B = (0.00042); %assuming all boron from one source
-m_CO32 = 0.0011  %assuming all alk from HCO3
+m_CO32 = 0.0011;  %assuming all alk from HCO3
 
 % Equation of State for Seawater Density
 % Seawater Density as a function of T & S at the normal atmospheric
@@ -56,20 +56,19 @@ BH3O3_mw = 61.83;
 %==========================================================================
 
 % Measured Salts (g)
-Na2SO4 = 4.1081;
-KCl = 0.7782;
-NaCl = 24.5724;
-Na2CO3 = 0.1178;
-BH3O3 = 0.0286;
+Na2SO4 = 4.1231;
+KCl = 0.7831;
+NaCl = 24.59042;
+Na2CO3 = 0.1200;
+BH3O3 = 0.0264;
 
 % Measured solution (mL)
-MgCl2 = 58.8;
-CaCl2 = 10.8;
+MgCl2 = 31.797363604;
+CaCl2 = 11.15985069211;
 
 % Concentration of MgCl2 & CaCl2 solutions (mol/L) to be used
-% (arbitarily set to 1 mol/L for now, to simplify calculation)
-MgCl2_molarity = 0.92;
-CaCl2_molarity = 0.984; 
+MgCl2_molarity = MgCl2_conc;
+CaCl2_molarity = CaCl2_conc; 
 
 
 mol_MgCl2 = MgCl2 * (MgCl2_molarity / 1000);
@@ -83,10 +82,9 @@ Ca_conc = ((mol_CaCl2))/(Density*L);
 Na_conc = (((NaCl/NaCl_mw)+(2*Na2SO4/Na2SO4_mw)))/(Density*L);
 Cl_conc = (((NaCl/NaCl_mw)+(2*mol_MgCl2)+(2*mol_CaCl2)+(KCl/KCl_mw)))/(Density*L);
 Boron_conc = ((BH3O3/BH3O3_mw))/(Density*L);
-
-
-
 CO32_conc = (Na2CO3/Na2CO3_mw)/Density*L;
+
+salinity = (35.453 * Cl_conc) *1.80655;
 
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');   
 fprintf('Difference in ideal molality of Asw and prepared molality (mol/kg)'); 
@@ -116,7 +114,7 @@ disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');   
 fprintf('Solution composition: \n');
 fprintf('Temperature (C) = %f\n', T);
-fprintf('Salinity (g/kg) = %f\n', S);
+fprintf('Salinity (g/kg) = %f\n', salinity);
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
 fprintf('[Na+] (mol/kg) = %f\n', Na_conc);
 fprintf('[K] (mol/kg) = %f\n', K_conc);
