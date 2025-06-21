@@ -1,8 +1,15 @@
 % Input 
 %==========================================================================
-S = S;     
-T = T;      % Salinity
-L = L;       % Liters of synthetic seawater to be prepared
+prompt = "Input Temp (C):";
+T = input(prompt);         % Temp in Celsius 
+
+prompt = "Input Salinity (g/kg):";
+S = input(prompt);   
+      
+prompt = "Volume to be prepared (L):";
+L = input(prompt);       % Liters of synthetic seawater to be prepared
+
+
 
 % Molality (mol/Kg art.SW) of constituent ions in the ASW 
     %  The Molality (mol/kg) value for ions from 
@@ -56,15 +63,15 @@ BH3O3_mw = 61.83;
 %==========================================================================
 
 % Measured Salts (g)
-Na2SO4 = 4.1231;
-KCl = 0.7831;
-NaCl = 24.59042;
-Na2CO3 = 0.1200;
-BH3O3 = 0.0264;
+Na2SO4 = 2.0560;
+KCl =  0.3904;
+NaCl = 15.8579;
+Na2CO3 = 0.0551;
+BH3O3 = 0.0145;
 
 % Measured solution (mL)
-MgCl2 = 31.797363604;
-CaCl2 = 11.15985069211;
+MgCl2 = 3.956674337;
+CaCl2 = 5.579925347;
 
 % Concentration of MgCl2 & CaCl2 solutions (mol/L) to be used
 MgCl2_molarity = MgCl2_conc;
@@ -116,12 +123,20 @@ fprintf('Solution composition: \n');
 fprintf('Temperature (C) = %f\n', T);
 fprintf('Salinity (g/kg) = %f\n', salinity);
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-fprintf('[Na+] (mol/kg) = %f\n', Na_conc);
-fprintf('[K] (mol/kg) = %f\n', K_conc);
-fprintf('[Mg2+] (mol/kg) = %f\n', Mg_conc);
-fprintf('[Ca2+] (mol/kg) = %f\n', Ca_conc);
-fprintf('[Cl-] (mol/kg) = %f\n', Cl_conc);
-fprintf('[SO42-] (mol/kg) = %f\n', SO4_conc);
-fprintf('[CO32-] (mol/kg) = %f\n', CO32_conc);
-fprintf('[Total Boron] (mol/kg) = %f\n', Boron_conc);
-fprintf('[TA] (uEq/kg) = %f\n', -10^6*((Na_conc+2*Mg_conc+2*Ca_conc+K_conc)-(2*CO32_conc+Cl_conc+2*SO4_conc)));
+disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');   
+fprintf('Solution composition: \n');
+fprintf('Temperature (C) = %f\n', T);
+fprintf('Salinity (g/kg) = %f\n', salinity);
+disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+fprintf('[Na+] (mol/kg H2O) = %f\n', Na_conc/(1-(S/1000)));
+fprintf('[K] (mol/kg H2O) = %f\n', K_conc/(1-(S/1000)));
+fprintf('[Mg2+] (mol/kg H2O) = %f\n', Mg_conc/(1-(S/1000)));
+fprintf('[Ca2+] (mol/kg H2O) = %f\n', Ca_conc/(1-(S/1000)));
+fprintf('[Cl-] (mol/kg H2O) = %f\n', Cl_conc/(1-(S/1000)));
+fprintf('[SO42-] (mol/kg H2O) = %f\n', SO4_conc/(1-(S/1000)));
+fprintf('[CO32-] (mol/kg H2O) = %f\n', CO32_conc/(1-(S/1000)));
+fprintf('[Total Boron] (mol/kg H2O) = %f\n', Boron_conc/(1-(S/1000)));
+fprintf('[TA] (uEq/kg H2O) = %f\n', -10^6*((Na_conc+2*Mg_conc+2*Ca_conc+K_conc)-(2*CO32_conc+Cl_conc+2*SO4_conc)))/(1-(S/1000));
+
+
+

@@ -14,16 +14,16 @@ L = input(prompt);       % Liters of synthetic seawater to be prepared
 % Molality (mol/Kg art.SW) of constituent ions in the ASW 
     %  The Molality (mol/kg) value for ions from 
     %  "Guide to best practices for ocean CO2 measurements"
-m_Cl = (0.54922);
-m_SO4 = (0.02824);
-m_Na = (0.46911);
-m_Mg = (0.05283);
-m_Ca = (0.01036);
-m_K = (0.01021);
+m_Cl = (0.54922)/(35/S);
+m_SO4 = (0.02824)/(35/S);
+m_Na = (0.46911)/(35/S);
+m_Mg = (0.05283)/(35/S);
+m_Ca = (0.01036)/(35/S);
+m_K = (0.01021)/(35/S);
 
-m_B = (0.00042); %assuming all boron from one source
+m_B = (0.00042)/(35/S); %assuming all boron from one source
 %m_HCO3 = (0.00177); %assuming all alk from HCO3
-m_CO32 = 0.0011; 
+m_CO32 = 0.001; 
 
 % Concentration of MgCl2 & CaCl2 solutions (mol/L) to be used
 MgCl2_conc = 1.703211;
@@ -85,9 +85,9 @@ BH3O3 = B * BH3O3_mw;
 
     
 % Na2CO3 to be added (g)
-% Na2CO3 = CO32 * Na2CO3_mw;
+ Na2CO3 = CO32 * Na2CO3_mw;
 %     % moles of Na+ coming from Na2CO3
-%        sod_co32 = CO32 * 2;
+      sod_co32 = CO32 * 2;
 
 % NaHCO3 to be added (g)
 %NaHCO3 = HCO3 * NaHCO3_mw;
@@ -117,7 +117,7 @@ CaCl2 = (Ca / CaCl2_conc)*1000;
 
 
 % Na+ to be added from NaCl
-Na_rest = Na - (sod_so4);
+Na_rest = Na - (sod_so4+sod_co32);
 % Cl- to be added from NaCl
 Cl_rest = Cl - (chlo_k) - (chlo_mg) - (chlo_ca);
 %         !!!!!! Check  !!!!!!  
@@ -127,8 +127,11 @@ Cl_rest = Cl - (chlo_k) - (chlo_mg) - (chlo_ca);
 NaCl = Na_rest * NaCl_mw; 
 
 
+
 %initial alk estimate
-alk =  -10^6*(Na_rest - Cl_rest);    
+alk =  (Na_rest - Cl_rest); 
+
+alk
 
 %initial DIC
 KH = 10^-1.46;
@@ -145,7 +148,7 @@ disp('                                                        ');
 fprintf('Na2SO4 to be added (g) = %f\n', Na2SO4); 
 fprintf('BH3O3 to be added (g) = %f\n', BH3O3); 
 %fprintf('NaHCO3 to be added (g) = %f\n', NaHCO3); 
-% fprintf('Na2CO32 to be added (g) = %f\n', Na2CO3);
+fprintf('Na2CO32 to be added (g) = %f\n', Na2CO3);
 fprintf('KCl to be added (g) = %f\n', KCl); 
 fprintf('NaCl to be added (g) = %f\n', NaCl); 
 fprintf('MgCl2 solution to be added (mL) = %f\n', MgCl2); 
